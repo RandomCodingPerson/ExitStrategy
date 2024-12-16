@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+
+        <script>
+            sessionStorage.setItem("board", {});
+        </script>
+        
+        <div class="ui">
+            <!-- board setup -->
+
+            <div class="pieceMove">
+                <h1>Move Pieces</h1>
+                <p>Piece</p>
+                <textarea id='pc' class="pieceChoice"></textarea>
+                <p>Square</p>
+                <textarea id='sc' class="pieceChoice"></textarea>
+
+
+                <button id='pm' class='gb' >Move Piece</button>
+                <script>
+                    cols = ["A", "B", "C", "D", "E", "F", "G"];
+                    document.getElementById("pm").onclick = () => {
+                        piece = document.getElementById("pc").value;
+                        square = document.getElementById("sc").value;
+                        console.log("pc", piece, square)
+                        if (!piece || !square) {
+                            alert("Please enter a piece and square");
+                            return;
+                        }
+                        board = JSON.parse(sessionStorage.getItem("board"));
+                        console.log()
+                        if (!Object.keys(board).includes(piece)) {
+                            alert("Not a valid piece!");
+                            return;
+                        }
+                        subSquare = square.split("");
+                        console.log('ss', subSquare)
+                        let column = cols.indexOf(subSquare[0]);
+                        let row = parseInt(subSquare[1]);
+
+                        
+
+                        board[piece]["row"] = row - 1;
+                        board[piece]["column"] = column;
+
+                        genPieces(board);
+
+                        sessionStorage.setItem("board", JSON.stringify(board));
+                    }
+                </script>
+            </div>
+
+            <div id="board" class="board">
+                <script>
+                    cols = ["A", "B", "C", "D", "E", "F", "G"];
+                    
+                    board = document.getElementById("board");
+                    for (i = 0; i<7; i++) {
+                        for (j = 0; j<7; j++) {
+                            squareId = `${cols[i]}${j+1}`
+                            square = document.createElement("div");
+                            square.classList.add("square");
+                            square.id = squareId;
+                            square.style.gridColumn = i+1;
+                            square.style.gridRow = j + 1;
+                            board.appendChild(square);
+                        }
+                    }
+                </script>
+            </div>
+            <div class="textInput">
+                <h1>Input</h1>
+                <textarea id='pgn' class="pgnInput"></textarea>
+                <button id='gb' class='gb' >Generate board</button>
+                <script>
+                    document.getElementById("gb").onclick = () => {
+                        genPieces(JSON.parse(document.getElementById("pgn").value));
+                        sessionStorage.setItem("board", document.getElementById("pgn").value);
+                    }
+                </script>
+            </div>
+        </div>
+
+        <!-- piece setup -->
+        <script>
+            let piecesTest = {
+                "3W": {
+                    "row": 2,
+                    "column": 1,
+                    "piece": 3,
+                    "side": "white"
+                }
+            }
+
+            function removePieces() {
+                var paras = document.getElementsByClassName('piece');
+
+                while(paras[0]) {
+                    paras[0].parentNode.removeChild(paras[0]);
+                }
+            }
+
+            function genPieces(pieces) {
+
+                removePieces();
+                cols = ["A", "B", "C", "D", "E", "F", "G"];
+                board = document.getElementById("board");
+
+                for (i = 0; i<Object.keys(pieces).length; i++) {
+                    console.log("test")
+                    x= Object.values(pieces)[i];
+                    pieceId = `p${cols[x["column"]]}${x["row"]+1}`
+                    piece = document.createElement("div");
+                    piece.classList.add(`${x["side"]}`);
+                    piece.classList.add(`piece`);
+                    piece.id = pieceId;
+                    piece.style.gridRow = x["row"] + 1;
+                    piece.style.gridColumn = x["column"] + 1;
+                    piece.innerText=x["piece"];
+                    board.appendChild(piece);
+                }
+            }
+
+
+        </script>
+
+    </body>
+</html>
