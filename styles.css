@@ -1,0 +1,111 @@
+body {
+    background: rgb(38, 38, 48);
+    max-width: 100vw;
+    overflow: hidden;
+}
+.board {
+    display:grid;
+    background:black;
+    grid-template-columns: repeat(7, 70px);
+    grid-template-rows: repeat(7, 70px);
+    gap: 2px;
+    width:fit-content;
+    border: 10px white solid;
+}
+
+.ui {
+    margin-left: 50vw;
+    margin-top: 50vh;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    display:flex;
+}
+
+.textInput {
+    width: 300px;
+    margin-left: 50px;
+    background: rgb(17, 17, 25);
+}
+
+.pieceMove {
+    width: 300px;
+    margin-right: 50px;
+    background: rgb(17, 17, 25);
+    color: white;
+}
+
+.pieceChoice {
+    resize: none;
+    width: 266px;
+    margin-left: 15px;
+    background: rgb(38, 38, 48);
+    color: white;
+    border: 0px none;
+    margin-top: 0px;
+}
+
+p {
+    margin-left: 15px;
+}
+
+h1 {
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    font-size: 20px;
+    margin: 15px;
+}
+
+.pgnInput {
+    width: 266px;
+    margin-left: 15px;
+    background: rgb(38, 38, 48);
+    color: white;
+    border: 0px none;
+    margin-top: 0px;
+    height: 60%;
+}
+
+.gb {
+    margin: 15px;
+    margin-right: 0;
+    background: rgb(38, 38, 48);
+    color: white;
+    border: 0px none;
+    width: 90%;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.square {
+    background: #B1B1B1;
+}
+
+#G4, #A4 {
+    background: #4F4F4F;
+}
+
+#D4 {
+    background: #8CFFA3;
+}
+
+.white {
+    background: white;
+    color: black
+}
+.black {
+    background: black;
+    color: white;
+}
+
+.piece {
+    width: 60px;
+    line-height: 60px;
+    font-family:'Courier New', Courier, monospace;
+    text-align: center;
+    margin: auto;
+}
+
+.pgnInput {
+    resize: none;
+}
