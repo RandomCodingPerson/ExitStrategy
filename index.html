@@ -6,7 +6,7 @@
     <body>
 
         <script>
-            sessionStorage.setItem("board", {});
+            sessionStorage.setItem("board", "{}");
         </script>
         
         <div class="ui">
@@ -41,7 +41,7 @@
                         subSquare = square.split("");
                         console.log('ss', subSquare)
                         let column = cols.indexOf(subSquare[0]);
-                        let row = parseInt(subSquare[1]) - 1;
+                        let row = 7 - parseInt(subSquare[1]);
 
                         movePiece(piece, row, column);
 
@@ -74,8 +74,9 @@
                 <button id='gb' class='gb' >Generate board</button>
                 <script>
                     document.getElementById("gb").onclick = () => {
-                        genPieces(JSON.parse(document.getElementById("pgn").value));
-                        let board = sessionStorage.setItem("board", document.getElementById("pgn").value);
+                        let pgn = processPgn(document.getElementById("pgn").value);
+                        genPieces(pgn);
+                        let board = sessionStorage.setItem("board", JSON.stringify(pgn));
                         console.log(board);
                     }
                 </script>
@@ -114,7 +115,7 @@
                     piece.classList.add(`${x["side"]}`);
                     piece.classList.add(`piece`);
                     piece.id = pieceId;
-                    piece.style.gridRow = x["row"];
+                    piece.style.gridRow = x["row"] + 1;
                     piece.style.gridColumn = x["column"] + 1;
                     piece.innerText=x["piece"];
 
@@ -127,6 +128,8 @@
             }
 
             function genDots(board, square, piece) {
+
+                console.log('td', square, board)
 
                 removeDots();
 
@@ -230,6 +233,8 @@
 
                 board = JSON.parse(sessionStorage.getItem("board"));
 
+                console.log("ss", sessionStorage.getItem("board"), board)
+
                 board[piece]["row"] = row;
                 board[piece]["column"] = column;
 
@@ -246,6 +251,34 @@
                 };
             }
 
+            function processPgn(gbString) {
+                // gbString = "1W-A2 2W-A3" etc.
+                let gbArray = gbString.split(" "); 
+                let returnPgn = {};
+                for (let i = 0; i < gbArray.length; i++) {
+                    let thisPieceArray = gbArray[i].split("-");
+                    let thisPiece = thisPieceArray[0];
+                    let thisPieceNum = parseInt(thisPiece.split("")[0]);
+                    let thisPieceSide = (thisPiece.split("")[1] == "W") ? "white" : "black";
+
+                    let thisSquare = thisPieceArray[1];
+
+                    cols = ["A", "B", "C", "D", "E", "F", "G"];
+                    let thisColumn = cols.indexOf(thisSquare.split("")[0]);
+                    let thisRow = 7 - thisSquare.split("")[1];
+
+                    console.log('tr', thisRow)
+
+                    let thisPieceDetails = {
+                        "row": thisRow, 
+                        "column": thisColumn,
+                        "piece": thisPieceNum,
+                        "side": thisPieceSide
+                    }
+                    returnPgn[thisPiece] = thisPieceDetails;
+                    return returnPgn;
+                }
+            }
 
 
         </script>
