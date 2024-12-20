@@ -109,3 +109,14 @@ h1 {
 .pgnInput {
     resize: none;
 }
+
+.dot {
+    grid-row: 2;
+    grid-column: 4;
+    background:green;
+    width:30px;
+    height:30px;
+    margin-left:20px;
+    border-radius:50%;
+    margin-top:20px;
+}
